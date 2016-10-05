@@ -25,7 +25,7 @@ define flagsarm
   # Carry/Borrow/Extend (C), bit 29
   # Overflow (V), bit 28
   # negative/less than (N), bit 31 of CPSR
-  if ($cpsr->n & 1)
+  if (($cpsr & (1<<31)))
     printf "N "
     set $_n_flag = 1
   else
@@ -33,7 +33,7 @@ define flagsarm
     set $_n_flag = 0
   end
   # zero (Z), bit 30
-  if ($cpsr->z & 1)
+  if (($cpsr & (1<<30)))
     printf "Z "
     set $_z_flag = 1
   else
@@ -41,7 +41,7 @@ define flagsarm
     set $_z_flag = 0
   end
   # Carry/Borrow/Extend (C), bit 29
-  if ($cpsr->c & 1)
+  if (($cpsr & (1<<29)))
     printf "C "
     set $_c_flag = 1
   else
@@ -49,7 +49,7 @@ define flagsarm
     set $_c_flag = 0
   end
   # Overflow (V), bit 28
-  if ($cpsr->v & 1)
+  if (($cpsr & (1<<28)))
     printf "V "
     set $_v_flag = 1
   else
@@ -57,7 +57,7 @@ define flagsarm
     set $_v_flag = 0
   end
   # Sticky overflow (Q), bit 27
-  if ($cpsr->q & 1)
+  if (($cpsr & (1<<27)))
     printf "Q "
     set $_q_flag = 1
   else
@@ -68,7 +68,7 @@ define flagsarm
   # When T=1:
   # J = 0 The processor is in Thumb state.
   # J = 1 The processor is in ThumbEE state.
-  if ($cpsr->j & 1)
+  if (($cpsr & (1<<24)))
     printf "J "
     set $_j_flag = 1
   else
@@ -76,7 +76,7 @@ define flagsarm
     set $_j_flag = 0
   end
   # Data endianness bit (E), bit 9
-  if ($cpsr->e & 1)
+  if (($cpsr & (1<<9)))
     printf "E "
     set $_e_flag = 1
   else
@@ -86,7 +86,7 @@ define flagsarm
   # Imprecise abort disable bit (A), bit 8
   # The A bit is set to 1 automatically. It is used to disable imprecise data aborts.
   # It might not be writable in the Nonsecure state if the AW bit in the SCR register is reset.
-  if ($cpsr->a & 1)
+  if (($cpsr & (1<<8)))
     printf "A "
     set $_a_flag = 1
   else
@@ -95,7 +95,7 @@ define flagsarm
   end
   # IRQ disable bit (I), bit 7
   # When the I bit is set to 1, IRQ interrupts are disabled.
-  if ($cpsr->i & 1)
+  if (($cpsr & (1<<7)))
     printf "I "
     set $_i_flag = 1
   else
@@ -105,7 +105,7 @@ define flagsarm
   # FIQ disable bit (F), bit 6
   # When the F bit is set to 1, FIQ interrupts are disabled.
   # FIQ can be nonmaskable in the Nonsecure state if the FW bit in SCR register is reset.
-  if ($cpsr->f & 1)
+  if (($cpsr & (1<<6)))
     printf "F "
     set $_f_flag = 1
   else
@@ -114,7 +114,7 @@ define flagsarm
   end
   # Thumb state bit (F), bit 5
   # if 1 then the processor is executing in Thumb state or ThumbEE state depending on the J bit
-  if ($cpsr->t & 1)
+  if (($cpsr & (1<<5)))
     printf "T "
     set $_t_flag = 1
   else
@@ -130,14 +130,14 @@ end
 
 define eflagsarm
   printf "     N <%d>  Z <%d>  C <%d>  V <%d>", \
-         ($cpsr->n & 1), ($cpsr->z & 1), \
-	 ($cpsr->c & 1), ($cpsr->v & 1)
+         (($cpsr & (1<<31))), (($cpsr & (1<<30))), \
+	 (($cpsr & (1<<29))), (($cpsr & (1<<28)))
   printf "  Q <%d>  J <%d>  GE <%d>  E <%d>  A <%d>", \
-         ($cpsr->q & 1), ($cpsr->j & 1), \
-	 ($cpsr->ge), ($cpsr->e & 1), ($cpsr->a & 1)
+         (($cpsr & (1<<27))), (($cpsr & (1<<24))), \
+	 (($cpsr >> 16) & 0xf), (($cpsr & (1<<9))), (($cpsr & (1<<8)))
   printf "  I <%d>  F <%d>  T <%d> \n", \
-         ($cpsr->i & 1), ($cpsr->f & 1), \
-	 ($cpsr->t & 1)
+         (($cpsr & (1<<7))), (($cpsr & (1<<6))), \
+	 (($cpsr & (1<<5)))
 end
 document eflagsarm
 Auxillary function to print ARM eflags register.

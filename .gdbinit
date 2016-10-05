@@ -1,8 +1,17 @@
 ###
 # Options
 
+set $ARM = 0
+set $X86 = 0
+set $X86_64 = 0
+set $MIPS = 0
+
+set $64BITS = 0
+
+set $ARM = 1
+
 # set to 0 if you have problems with the colorized prompt - reported by Plouj with Ubuntu gdb 7.2
-set $COLOUREDPROMPT = 0
+set $COLOUREDPROMPT = 1
 # Colour the first line of the disassembly - default is green, if you want to change it search for
 # SETCOLOUR1STLINE and modify it :-)
 set $SETCOLOUR1STLINE = 0

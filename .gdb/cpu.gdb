@@ -304,9 +304,9 @@ end
 
 
 define hookstopcpu
-  if $ARM == 1
-    hookstoparm
-  end
+  #  if $ARM == 1
+  #   hookstoparm
+  # end
 
   if (($X86 == 1) || ($X86_64 == 1))
     hookstopx86

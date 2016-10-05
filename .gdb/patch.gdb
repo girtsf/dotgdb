@@ -11,7 +11,7 @@ define nop
 
   if $ARM == 1
     if ($argc == 1)
-      if ($cpsr->t &1)
+      if (($cpsr & (1<<5)))
         # thumb
         set *(short *) $arg0 = 0x46c0
       else
@@ -20,7 +20,7 @@ define nop
       end
     else
       set $addr = $arg0
-      if ($cpsr->t & 1)
+      if (($cpsr & (1<<5)))
     	# thumb
 	while ($addr < $arg1)
 	  set *(short *) $addr = 0x46c0
